@@ -17,6 +17,7 @@ export default requireSession(async (req, res) => {
                                   assignments.status,
                                   assignments.pitch,
                                   assignments.brief_url,
+                                  assignments.outline,
                                   assignments.published_url,
                                   assignments.writer_email,
                                   assignments.writer_payout,

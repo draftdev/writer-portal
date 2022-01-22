@@ -7,7 +7,9 @@ import RequestAssignment from "../../components/assignments/request-assignment";
 import {assignmentStatuses} from "../../constants/assignment-statuses";
 import SubmitAssignment from "../../components/assignments/submit-assignment";
 import AssignmentHeader from "../../components/assignments/assignment-header";
-
+// import ReactMarkdown from 'react-markdown/react-markdown.min';
+import dynamic from 'next/dynamic'
+const ReactMarkdown= dynamic(() => import('react-markdown'),{ ssr: false })
 dayjs.extend(localizedFormat);
 
 export default function SingleAssignment({assignmentId}) {
@@ -86,6 +88,12 @@ export default function SingleAssignment({assignmentId}) {
                           </a>
                       </td>
                   </tr>) : null}
+                  <tr>
+                    <th>Outline</th>
+                    <td>
+                      <ReactMarkdown children={assignment.outline} />
+                    </td>
+                  </tr>
               {assignment.published_url ? (
                   <tr>
                       <th>Published URL</th>
