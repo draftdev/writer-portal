@@ -17,7 +17,7 @@ const acceptAssignment = requireAuth(async (req, res) => {
   if (!writer.data || !assignment.data)
     return res.status(404).send("Not found");
 
-  if (assignment.data.writer !== writer.data.id) {
+  if (assignment.data.writer[0] !== writer.data.id) {
     return res
       .status(403)
       .json({ error: "This assignment is not assigned to you" });
