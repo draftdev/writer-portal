@@ -101,6 +101,7 @@ export const getAvailableAssignments = async (email) => {
                      where assignments.status like $1
                      and lower(assignments.content_types_names) not like $3
                      and assignments.writer_due_date < current_date + interval '45' day
+                     and assignments.hide_in_portal = false
                      and assignments.writer = '{}'
                      group by assignments.id, your_requests.request_date, your_requests.request_status
                      order by assignments.writer_due_date asc;`;
