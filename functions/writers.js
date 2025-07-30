@@ -27,15 +27,25 @@ export const getWriter = async (writerId) => {
                            where writers.id like $1;`;
     const { rows } = await pool.query(query, [writerId]);
     const data = rows[0];
-    if (data?.profile_photo?.[0]) {
-      const imageResponse = await fetchImage(data.profile_photo[0]);
-      data.new_profile_photo = imageResponse.url;
-    }
+    // if (data?.profile_photo?.[0]) {
+    //   const imageResponse = await fetchImage(data.profile_photo[0]);
+    //   data.new_profile_photo = imageResponse.url;
+    // }
     return { data, error: null };
   } catch (e) {
     console.error(e);
     return { data: null, error: e };
   }
+};
+
+export const getWriterPhotoUrl = async (writerId) => {
+  const writer = await getWriter(writerId);
+  if (writer.data && writer.data.profile_photo?.[0]) {
+    const imageResponse = await fetchImage(writer.data.profile_photo[0])
+    console.log(imageResponse)
+    return imageResponse.url;
+  }
+  return null;
 };
 
 export const getCurrentWriter = async (email) => {

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useWriter } from "../../../data/use-writer";
 import Image from "next/legacy/image";
 
@@ -9,7 +9,16 @@ export default function WriterPage({ writerId }) {
 
 function Writer({ writerId }) {
   const { writer } = useWriter(writerId);
+  const [photo, setPhoto] = React.useState("");
 
+  const fetchPhoto = async () => {
+    const photo = await fetch(`/api/writers/${writerId}/photo`)
+    console.log(photo)
+    setPhoto(await photo.text())
+  }
+  useEffect( () => {
+    fetchPhoto()
+  })
   return (
     <>
       <div className="flex justify-center mb-64 mt-10">
@@ -18,7 +27,7 @@ function Writer({ writerId }) {
             <div className="flex lg:block items-center justify-center">
               <figure className="h-[400px] w-[400px] rounded-full relative">
                 <Image
-                  src={writer?.new_profile_photo}
+                  src={photo}
                   alt={"Writer profile photo"}
                   layout="fill"
                 />
