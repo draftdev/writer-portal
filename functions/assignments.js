@@ -78,33 +78,33 @@ export const getAssignments = async (type, email) => {
 export const getAvailableAssignments = async (email) => {
   try {
     const query = `select assignments.title,
-                            assignments.id,
-                            assignments.client_name,
-                            assignments.status,
-                            assignments.pitch,
-                            assignments.brief_url,
-                            assignments.writer_due_date,
-                            assignments.writer,
-                            assignments.writer_deliverables,
-                            assignments.bonus,
-                            assignments.content_categories,
-                            assignments.content_types_names ,
-                            string_agg(content_categories.name, ', ') as content_category_names,
-                            your_requests.request_date,
-                            your_requests.request_status
-                     from assignments
-                            left join content_categories on content_categories.id = ANY (assignments.content_categories)
-                            left join (
-                                select * from requests
-                                where $2 = ANY (writer_email)
-                            ) as your_requests on your_requests.id = ANY (assignments.requests)
-                     where assignments.status like $1
+                          assignments.id,
+                          assignments.client_name,
+                          assignments.status,
+                          assignments.pitch,
+                          assignments.brief_url,
+                          assignments.writer_due_date,
+                          assignments.writer,
+                          assignments.writer_deliverables,
+                          assignments.bonus,
+                          assignments.content_categories,
+                          assignments.content_types_names ,
+                          string_agg(content_categories.name, ', ') as content_category_names,
+                          your_requests.request_date,
+                          your_requests.request_status
+                   from assignments
+                          left join content_categories on content_categories.id = ANY (assignments.content_categories)
+                          left join (
+                     select * from requests
+                     where $2 = ANY (writer_email)
+                   ) as your_requests on your_requests.id = ANY (assignments.requests)
+                   where assignments.status like $1
                      and lower(assignments.content_types_names) not like $3
                      and assignments.writer_due_date < current_date + interval '45' day
                      and assignments.hide_in_portal = false
                      and assignments.writer = '{}'
-                     group by assignments.id, your_requests.request_date, your_requests.request_status
-                     order by assignments.writer_due_date asc;`;
+                   group by assignments.id, your_requests.request_date, your_requests.request_status, assignments.content_types_names, assignments.content_categories, assignments.bonus, assignments.writer_deliverables, assignments.writer, assignments.writer_due_date, assignments.brief_url, assignments.pitch, assignments.status, assignments.client_name, assignments.title
+                   order by assignments.writer_due_date`;
     const { rows } = await pool.query(query, [
       "Assigning",
       email,

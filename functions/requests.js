@@ -53,7 +53,7 @@ export const getRequests = async (type, email) => {
                             join assignments on assignments.id = ANY(requests.assignment)
                      where writers.email like $1 and writers.status='Accepted' and ${request_status_query[type]}
                      and assignments.writer_due_date is not null
-                     group by assignments.title, assignments.id, requests.id, assignments.writer_due_date
+                     group by assignments.title, assignments.id, requests.id, assignments.writer_due_date, requests.request_status, requests.request_date
                      order by assignments.writer_due_date desc;`;
     const { rows } = await pool.query(query, [email]);
 
@@ -76,7 +76,7 @@ export const getSingleRequest = async (requestId, email) => {
                             join assignments on assignments.id = ANY(requests.assignment)
                      where requests.id = $1 and writers.email like $2 and writers.status='Accepted'
                      and assignments.writer_due_date is not null
-                     group by assignments.title, assignments.id, requests.id, assignments.writer_due_date
+                     group by assignments.title, assignments.id, requests.id, assignments.writer_due_date, requests.request_status, requests.request_date
                      order by assignments.writer_due_date desc;`;
     const { rows } = await pool.query(query, [requestId, email]);
 
