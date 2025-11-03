@@ -41,7 +41,7 @@ export const getWriter = async (writerId) => {
 export const getWriterPhotoUrl = async (writerId) => {
   const writer = await getWriter(writerId);
   if (writer.data && writer.data.profile_photo?.[0]) {
-    const imageResponse = await fetchImage(writer.data.profile_photo[0])
+    const imageResponse = await fetchImage(JSON.parse(writer.data.profile_photo[0]).url)
     console.log(imageResponse)
     return imageResponse.url;
   }
