@@ -7,7 +7,7 @@ const pool = new Pool({ connectionString });
 export const fetchImage = async (src) => {
   const headers = new Headers();
   headers.set("Accept", "*/*");
-  headers.set("Authorization", `Bearer ${process.env.AIRTABLE_API_KEY}`);
+  headers.set("Authorization", `Bearer ${process.env.STACKSYNC_API_KEY}`);
   headers.set("Accept-Encoding", "application/gzip");
   return fetch(src, { headers });
 };

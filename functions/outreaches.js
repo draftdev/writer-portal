@@ -7,8 +7,8 @@ const connectionString = process.env.PG_CONNECTION_STRING;
 const pool = new Pool({ connectionString });
 
 const base = new Airtable({
-  apiKey: process.env.AIRTABLE_API_KEY,
-  endpointUrl: "https://proxy.syncinc.so/api.airtable.com",
+  apiKey: process.env.STACKSYNC_API_KEY,
+  endpointUrl: "https://us.api-proxy.stacksync.com/v1/proxy/https://api.airtable.com",
 }).base(process.env.AIRTABLE_BASE);
 
 export const updateOutreach = async (
