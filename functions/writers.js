@@ -7,7 +7,7 @@ const pool = new Pool({ connectionString });
 export const fetchImage = async (src) => {
   const headers = new Headers();
   headers.set("Accept", "*/*");
-  headers.set("Authorization", `Bearer ${process.env.AIRTABLE_API_KEY}`);
+  headers.set("Authorization", `Bearer ${process.env.STACKSYNC_API_KEY}`);
   headers.set("Accept-Encoding", "application/gzip");
   return fetch(src, { headers });
 };
@@ -41,7 +41,7 @@ export const getWriter = async (writerId) => {
 export const getWriterPhotoUrl = async (writerId) => {
   const writer = await getWriter(writerId);
   if (writer.data && writer.data.profile_photo?.[0]) {
-    const imageResponse = await fetchImage(writer.data.profile_photo[0])
+    const imageResponse = await fetchImage(JSON.parse(writer.data.profile_photo[0]).url)
     console.log(imageResponse)
     return imageResponse.url;
   }
