@@ -127,6 +127,7 @@ function getMessageFromStatus(assignment, writerEmail) {
 
 export default function AssignmentHeader({ assignment, writerEmail }) {
   const data = getMessageFromStatus(assignment, writerEmail);
+  console.log(data)
   return (
     <>
       <div>
@@ -136,7 +137,7 @@ export default function AssignmentHeader({ assignment, writerEmail }) {
           <a href={data.top_link.to}>⬅ {data.top_link.message}</a>
         )}
         {data.heading && (
-          <h1 className="my-4 text-center">Confirm Your New Assignment</h1>
+          <h1 className="my-4 text-center">{data.heading}</h1>
         )}
         {data.type && (
           <div className={`alert shadow-lg text-white my-4 alert-${data.type}`}>
