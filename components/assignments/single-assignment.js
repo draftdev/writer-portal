@@ -124,7 +124,7 @@ export default function SingleAssignment({ assignmentId }) {
   };
 
   const handleSubmit = () => {
-    mutateAssignment({ ...assignment, status: assignmentStatuses.tech_review });
+    mutateAssignment({ ...assignment, status: assignmentStatuses.tech_review }, {revalidate: false});
     mutateWriter({
       ...writer,
       current_assignments_count: (
