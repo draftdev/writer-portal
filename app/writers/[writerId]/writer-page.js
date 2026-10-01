@@ -3,12 +3,23 @@ import React, { useEffect } from "react";
 import { useWriter } from "../../../data/use-writer";
 import Image from "next/legacy/image";
 
+// Writer websites are entered by hand and are often stored without a scheme
+// (e.g. "example.com"). Rendered as-is, the browser treats them as relative
+// paths on the portal, so make sure the link always points off-site.
+function toExternalUrl(url) {
+  const trimmed = url?.trim();
+  if (!trimmed) return null;
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed.replace(/^\/+/, "")}`;
+}
+
 export default function WriterPage({ writerId }) {
   return <Writer writerId={writerId} />;
 }
 
 function Writer({ writerId }) {
   const { writer } = useWriter(writerId);
+  const website = toExternalUrl(writer?.website);
   const [photo, setPhoto] = React.useState("");
 
   const fetchPhoto = async () => {
@@ -64,10 +75,10 @@ function Writer({ writerId }) {
 
               <div className="card-actions justify-end">
                 <p>
-                  {writer?.website ? (
+                  {website ? (
                     <span>
                       <a
-                        href={writer?.website}
+                        href={website}
                         target="_blank"
                         rel="noreferrer"
                       >
